@@ -1,7 +1,9 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .models import Questions
 
 from .serializers import UserSerializer
+from .serializers import QuestionSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
@@ -38,3 +40,14 @@ from rest_framework.permissions import IsAuthenticated
 @permission_classes([IsAuthenticated])
 def test_token(request):
     return Response("passed for {}".format(request.user.email))
+
+@api_view()
+def quiz_questions(request):
+    # Retrieve all quiz questions
+    questions = Questions.objects.all()
+    
+    # Serialize the data
+    serializer = QuestionSerializer(questions, many=True)
+    
+    # Return the serialized data as a JSON response
+    return Response(serializer.data, status=status.HTTP_200_OK)

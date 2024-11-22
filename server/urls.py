@@ -1,8 +1,13 @@
 from django.urls import re_path
+from django.urls import path
+from django.contrib import admin
 from . import views
 
 urlpatterns = [
-    re_path('login', views.login),
-    re_path('signup', views.signup),
-    re_path('test_token', views.test_token),
+    path('login', views.login),
+    path('signup', views.signup),
+    path('test_token', views.test_token),
+    path('admin/', admin.site.urls),
+    path('question/', views.quiz_questions),
+
 ]
